@@ -6,8 +6,15 @@ import sqlite3
 import discord
 from discord.ext import commands
 from imgurpython import ImgurClient
+import os
 
-import settings
+if os.getenv('LOCAL') is None:
+    import settings
+else:
+    imgur_client_id = os.getenv('imgur-id')
+    imgur_client_secret = os.getenv('imgur-secret')
+    discord_token = os.getenv('discord-token')
+    db = os.getenv('database')
 
 if not discord.opus.is_loaded():
     """ the 'opus' library here is opus.dll on windows
@@ -57,12 +64,14 @@ async def imgur(*search_terms):
     """ Fetches images from Imgur based on given arguments.
         Support single and multiple arguments"
     """
+    client = ImgurClient(settings.imgur_client_id, settings.imgur_client_secret)
+
     search_terms = " ".join(search_terms)
-    images = imgur_client.gallery_search(search_terms)
+    images = client.gallery_search(search_terms)
     if images:
         image = random.choice(images)
         if image.is_album == True:
-            await bot.say(imgur_client.get_image(image.cover).link)
+            await bot.say(client.get_image(image.cover).link)
         else:
             await bot.say(image.link)
     else:
@@ -92,8 +101,6 @@ async def quote(username=None):
 
 if __name__ == "__main__":
     try:
-        imgur_client = ImgurClient(settings.imgur_client_id, settings.imgur_client_secret)
-
         bot.run(settings.discord_token)
     except KeyboardInterrupt:
         print("Closing")
