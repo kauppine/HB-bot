@@ -1,1 +1,1 @@
-web: python hb-botti.py
+worker: python hb-botti.py
