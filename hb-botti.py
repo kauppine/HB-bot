@@ -18,6 +18,10 @@ if os.getenv('LIVE') is not None:
         discord.opus.load_opus('opus/lib/libopus.so')
 else:
     import settings
+    imgur_client_id = settings.imgur_client_id 
+    imgur_client_secret = settings.imgur_client_secret
+    discord_token = settings.discord_token
+    db = settings.db
 
     if not discord.opus.is_loaded():
         """ the 'opus' library here is opus.dll on windows
@@ -67,7 +71,7 @@ async def imgur(*search_terms):
     """ Fetches images from Imgur based on given arguments.
         Support single and multiple arguments"
     """
-    client = ImgurClient(settings.imgur_client_id, settings.imgur_client_secret)
+    client = ImgurClient(imgur_client_id, imgur_client_secret)
 
     search_terms = " ".join(search_terms)
     images = client.gallery_search(search_terms)
@@ -86,7 +90,7 @@ async def quote(username=None):
     """ Fetch random quotes from database, 
         if username is provided then fetches random quote from that username
     """
-    conn, c  = _db_connection(settings.db)
+    conn, c  = _db_connection(db)
     try:
         if username is not None:
             c.execute("SELECT * FROM quotes WHERE sender=? COLLATE NOCASE ORDER BY RANDOM() LIMIT 1", (username, ))
@@ -104,6 +108,6 @@ async def quote(username=None):
 
 if __name__ == "__main__":
     try:
-        bot.run(settings.discord_token)
+        bot.run(discord_token)
     except KeyboardInterrupt:
         print("Closing")
