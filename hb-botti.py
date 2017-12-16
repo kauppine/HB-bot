@@ -2,19 +2,20 @@ import asyncio
 import functools
 import random
 import sqlite3
+import os
 
 import discord
 from discord.ext import commands
 from imgurpython import ImgurClient
-import os
 
-if os.getenv('LOCAL') is None:
-    import settings
-else:
+
+if os.getenv('LIVE') is not None:
     imgur_client_id = os.getenv('imgur-id')
     imgur_client_secret = os.getenv('imgur-secret')
     discord_token = os.getenv('discord-token')
     db = os.getenv('database')
+else:
+    import settings
 
 if not discord.opus.is_loaded():
     """ the 'opus' library here is opus.dll on windows
