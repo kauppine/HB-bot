@@ -1,5 +1,5 @@
 discord.py[voice]
-aiohttp
-websockets
+aiohttp>=1.0.0,<1.1.0
+websockets>=3.1,<4.0
 imgurpython
 youtube_dl
