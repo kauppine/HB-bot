@@ -14,16 +14,18 @@ if os.getenv('LIVE') is not None:
     imgur_client_secret = os.getenv('imgur-secret')
     discord_token = os.getenv('discord-token')
     db = os.getenv('database')
+    if not discord.opus.is_loaded():
+    discord.opus.load_opus('opus/lib/libopus.so')
 else:
     import settings
 
-if not discord.opus.is_loaded():
-    """ the 'opus' library here is opus.dll on windows
-        or libopus.so on linux in the current directory
-        you should replace this with the location the
-        opus library is located in and with the proper filename.
-        note that on windows this DLL is automatically provided for you
-    """
+    if not discord.opus.is_loaded():
+        """ the 'opus' library here is opus.dll on windows
+            or libopus.so on linux in the current directory
+            you should replace this with the location the
+            opus library is located in and with the proper filename.
+            note that on windows this DLL is automatically provided for you
+        """
     discord.opus.load_opus('opus')
 
 
