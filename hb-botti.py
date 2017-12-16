@@ -15,7 +15,7 @@ if os.getenv('LIVE') is not None:
     discord_token = os.getenv('discord-token')
     db = os.getenv('database')
     if not discord.opus.is_loaded():
-    discord.opus.load_opus('opus/lib/libopus.so')
+        discord.opus.load_opus('opus/lib/libopus.so')
 else:
     import settings
 
