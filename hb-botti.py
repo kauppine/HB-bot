@@ -59,7 +59,7 @@ async def cena(ctx):
             player.stop()
             await voice.disconnect()
         except discord.errors.ClientException:
-            bot.say("Botilla on kiire spämmätä muualle")
+            await bot.say("Botilla on kiire spämmätä muualle")
 
 
 @bot.command(pass_context=True, description='No mietippä?')
@@ -79,7 +79,7 @@ async def think(ctx):
             player.stop()
             await voice.disconnect()
         except discord.errors.ClientException:
-            bot.say("Botilla on kiire spämmätä muualle")
+            await bot.say("Botilla on kiire spämmätä muualle")
 
 
 @bot.command(description='Hassuja kissakuvia')
