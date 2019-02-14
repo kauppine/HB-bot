@@ -13,7 +13,7 @@ if os.getenv('LIVE') is not None:
     imgur_client_id = os.getenv('imgur-id')
     imgur_client_secret = os.getenv('imgur-secret')
     discord_token = os.getenv('discord-token')
-    db = os.getenv('database')
+    db = os.getenv('MONGODB_URI')
     if not discord.opus.is_loaded():
         discord.opus.load_opus('opus/lib/libopus.so')
 else:
@@ -21,7 +21,7 @@ else:
     imgur_client_id = settings.imgur_client_id 
     imgur_client_secret = settings.imgur_client_secret
     discord_token = settings.discord_token
-    db = settings.db
+    db = None
 
     if not discord.opus.is_loaded():
         """ the 'opus' library here is opus.dll on windows
@@ -35,11 +35,6 @@ else:
 
 description = '''Epic bot for messing around in discord.'''
 bot = commands.Bot(command_prefix='/', description=description)
-
-
-def _db_connection(database):
-    conn = sqlite3.connect(database)
-    return conn, conn.cursor()
 
 @bot.event
 async def on_ready():
@@ -83,27 +78,6 @@ async def imgur(*search_terms):
             await bot.say(image.link)
     else:
         await bot.say("Ei löytynyt kuvia termillä " + search_terms)
-
-
-@bot.command(description='Ebin quoteja')
-async def quote(username=None):
-    """ Fetch random quotes from database, 
-        if username is provided then fetches random quote from that username
-    """
-    conn, c  = _db_connection(db)
-    try:
-        if username is not None:
-            c.execute("SELECT * FROM quotes WHERE sender=? COLLATE NOCASE ORDER BY RANDOM() LIMIT 1", (username, ))
-        else:
-            c.execute("SELECT * FROM quotes ORDER BY RANDOM() LIMIT 1")
-
-        time, sender, msg = c.fetchone()
-    except TypeError:
-        await bot.say("Ei löytynyt quoteja")
-    else:
-        await bot.say("{} - {}: {}".format(time, sender, msg))
-    finally:
-        conn.close()
 
 
 if __name__ == "__main__":
