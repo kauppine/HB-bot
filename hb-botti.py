@@ -70,7 +70,7 @@ async def think(ctx):
     else:
         voice = await bot.join_voice_channel(channel)
         player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=mxKDew6ldKY')
-        player.volume = 0.05
+        player.volume = 0.085
         player.start()
         while not player.is_done():
             await asyncio.sleep(1)
