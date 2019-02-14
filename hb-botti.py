@@ -1,7 +1,5 @@
 import asyncio
-import functools
 import random
-import sqlite3
 import os
 
 import discord
@@ -51,14 +49,17 @@ async def cena(ctx):
     if channel is None:
         await bot.say('Mee kanavalle, spede.')
     else:
-        voice = await bot.join_voice_channel(channel)
-        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=9EPL_4HyCFQ')
-        player.volume = 0.05
-        player.start()
-        while not player.is_done():
-            await asyncio.sleep(1)
-        player.stop()
-        await voice.disconnect()
+        try:
+            voice = await bot.join_voice_channel(channel)
+            player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=9EPL_4HyCFQ')
+            player.volume = 0.05
+            player.start()
+            while not player.is_done():
+                await asyncio.sleep(1)
+            player.stop()
+            await voice.disconnect()
+        except discord.errors.ClientException:
+            bot.say("Botilla on kiire spämmätä muualle")
 
 
 @bot.command(pass_context=True, description='No mietippä?')
@@ -68,14 +69,17 @@ async def think(ctx):
     if channel is None:
         await bot.say('Mee kanavalle, spede.')
     else:
-        voice = await bot.join_voice_channel(channel)
-        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=mxKDew6ldKY')
-        player.volume = 0.05
-        player.start()
-        while not player.is_done():
-            await asyncio.sleep(1)
-        player.stop()
-        await voice.disconnect()
+        try:
+            voice = await bot.join_voice_channel(channel)
+            player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=mxKDew6ldKY')
+            player.volume = 0.05
+            player.start()
+            while not player.is_done():
+                await asyncio.sleep(1)
+            player.stop()
+            await voice.disconnect()
+        except discord.errors.ClientException:
+            bot.say("Botilla on kiire spämmätä muualle")
 
 
 @bot.command(description='Hassuja kissakuvia')
