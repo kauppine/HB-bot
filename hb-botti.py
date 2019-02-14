@@ -62,7 +62,7 @@ async def cena(ctx):
 
 
 @bot.command(pass_context=True, description='No mietippä?')
-async def cena(ctx):
+async def think(ctx):
     """ Makes you think :thinking_face: """
     channel = ctx.message.author.voice_channel
     if channel is None:
