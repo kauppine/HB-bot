@@ -61,6 +61,23 @@ async def cena(ctx):
         await voice.disconnect()
 
 
+@bot.command(pass_context=True, description='No mietippä?')
+async def cena(ctx):
+    """ Makes you think :thinking_face: """
+    channel = ctx.message.author.voice_channel
+    if channel is None:
+        await bot.say('Mee kanavalle, spede.')
+    else:
+        voice = await bot.join_voice_channel(channel)
+        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=mxKDew6ldKY')
+        player.volume = 0.05
+        player.start()
+        while not player.is_done():
+            await asyncio.sleep(1)
+        player.stop()
+        await voice.disconnect()
+
+
 @bot.command(description='Hassuja kissakuvia')
 async def imgur(*search_terms):
     """ Fetches images from Imgur based on given arguments.
