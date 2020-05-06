@@ -45,7 +45,7 @@ async def on_ready():
 @bot.command(pass_context=True, description='AND HIS NAME IS: JOHN CENA!')
 async def cena(ctx):
     """ JOHN CENA """
-    channel = ctx.message.author.voice_channel
+    channel = ctx.message.author.voice.channel
     if channel is None:
         await bot.say('Mee kanavalle, spede.')
     else:
@@ -65,7 +65,7 @@ async def cena(ctx):
 @bot.command(pass_context=True, description='No mietippä?')
 async def think(ctx):
     """ Makes you think :thinking_face: """
-    channel = ctx.message.author.voice_channel
+    channel = ctx.message.author.voice.channel
     if channel is None:
         await bot.say('Mee kanavalle, spede.')
     else:
